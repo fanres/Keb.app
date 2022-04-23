@@ -1,6 +1,8 @@
+import 'package:example/screen/home.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'screen/screen.dart';
+import './screen/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoginScreen(),
         'register': (context) => Daftar(),
       },
+      home: HomePage(),
     );
   }
 }
