@@ -1,31 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'screen/screen.dart';
+import 'package:kebapp/view/auth/login.dart';
+import 'package:kebapp/view/auth/register.dart';
+import 'package:kebapp/view/auth_user/ui/keranjang/keranjang.dart';
+import 'package:kebapp/view/auth_user/ui/menu/menu.dart';
+import 'package:kebapp/view/auth_user/ui/profil/profil.dart';
+import 'package:kebapp/view/auth_user/ui/profil/riwayat.dart';
+import 'package:kebapp/view/auth_user/ui/profil/tentang_kami.dart';
+import 'package:kebapp/view/auth_user/ui/profil/ubah_akun.dart';
+import 'package:kebapp/view/splash_screen/splash_screen.dart';
+import 'package:kebapp/view/widget/bottom_navbar.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  get home => null;
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Keb.app',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme:
-            GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme),
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        '/login': (BuildContext context) => new LoginScreen(),
-        '/register': (BuildContext context) => new Daftar(),
+      home: const SplashScreen(),
+      routes: {
+        SplashScreen.routeName: (context) => const SplashScreen(),
+        LoginPage.routeName: (context) => LoginPage(),
+        RegisterPage.routeName: (context) => RegisterPage(),
+        MyBottomNavigationBar.routeName: (context) => MyBottomNavigationBar(),
+        Menu.routeName: (context) => Menu(),
+        Keranjang.routeName: (context) => Keranjang(),
+        MyProfile.routeName: (context) => MyProfile(),
+        UbahAkun.routeName: (context) => UbahAkun(),
+        Riwayat.routeName: (context) => Riwayat(),
+        TentangKami.routeName: (context) => TentangKami(),
       },
     );
   }
 }
+

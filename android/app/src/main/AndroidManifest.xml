@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pembuatanprogram.example">
+    package="com.example.kebapp">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="example"
+        android:label="kebapp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
