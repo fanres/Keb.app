@@ -1,0 +1,130 @@
+import "package:flutter/material.dart";
+import 'package:kebapp/data.dart';
+import 'package:kebapp/view/auth_user/ui/keranjang/keranjang.dart';
+
+class DetailKebab extends StatelessWidget{
+  DetailKebab({
+    Key? key, 
+    required this.detailToping,
+    required this.detailPrice, 
+    required this.detailImage,
+    required this.totalPriceSize, 
+    required this.typeSize
+  }) : super(key: key);
+  static const routeName = "/detail_kebab";
+  late String detailToping, detailImage, typeSize;
+  late int detailPrice, totalPriceSize;
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(233, 206, 206, 1),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.black
+        ),
+        elevation: 0,
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height/1.6,
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(227, 40, 96, 0.78),
+                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50))
+              ),
+              child: Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height/4,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(50), bottomRight: Radius.circular(50)),
+                    ),
+                  ),
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(60)),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.grey,
+                                spreadRadius: 3,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: NetworkImage(detailImage),
+                              fit: BoxFit.cover
+                            )
+                          ),
+                        ),
+                        const SizedBox(height: 17,),
+                        Text(
+                          "Kebab Toping $detailToping",
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black
+                          ),
+                        ),
+                        Text("+ Rp ${detailPrice.toString()}000", style: const TextStyle(fontSize: 16),),
+                        const SizedBox(height: 18,),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: Text(Data().textTentangKami, style: const TextStyle(fontSize: 14, color: Colors.white), textAlign: TextAlign.center,),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 40),
+            Center(
+              child: Card(
+                color: const Color.fromRGBO(227, 40, 96, 0.78),
+                elevation: 5,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.horizontal(left: Radius.circular(20), right: Radius.circular(20)),
+                ),
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width/1.5,
+                  height: 45,
+                  child: InkWell(
+                    splashColor: Colors.white,
+                    onTap: (){
+                      Data().keranjang[0]["menu"].add(detailToping);
+                      print(Data().keranjang[0]["menu"]);
+                    },
+                    child: const Center(
+                      child: Text(
+                        "Tambahkan ke keranjang",
+                        style: TextStyle(
+                          fontSize: 18, 
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
