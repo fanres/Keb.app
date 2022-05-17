@@ -9,6 +9,8 @@ class RegisterPage extends StatefulWidget{
   State<RegisterPage> createState() => _RegisterPage();
 }
 
+
+//buat variabel untuk menyimpan nilai di form
 class _RegisterPage extends State<RegisterPage>{
   final _formKey = GlobalKey<FormState>();
   final nUsernameController = TextEditingController();

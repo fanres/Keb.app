@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:kebapp/data.dart';
 import 'package:image_picker/image_picker.dart';
 
-class UbahAkun extends StatefulWidget{
+class UbahAkun extends StatefulWidget {
   UbahAkun({Key? key}) : super(key: key);
   static const routeName = "/ubah_akun";
 
@@ -14,7 +14,7 @@ class UbahAkun extends StatefulWidget{
   State<UbahAkun> createState() => _UbahAkun();
 }
 
-class _UbahAkun extends State<UbahAkun>{
+class _UbahAkun extends State<UbahAkun> {
   File? _image;
   final pickerImage = ImagePicker();
 
@@ -22,64 +22,69 @@ class _UbahAkun extends State<UbahAkun>{
     try {
       final imagePicked = await ImagePicker().pickImage(source: source);
       setState(() {
-        if(pickerImage != null){
+        if (pickerImage != null) {
           _image = File(imagePicked!.path);
           print("Success Change Profile Image");
         } else {
           print("No Image Selected");
         }
       });
-    } on PlatformException catch(e) {
+    } on PlatformException catch (e) {
       print("Failed to connect in gallery : $e");
     }
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(233, 206, 206, 1),
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.black
-        ),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: const Color.fromRGBO(233, 206, 206, 1),
         elevation: 1,
-        title: const Text("Ubah Akun", style: TextStyle(color: Colors.black),),
+        title: const Text(
+          "Ubah Akun",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 22,),
+            const SizedBox(
+              height: 22,
+            ),
             Stack(
               children: [
                 InkWell(
                   splashColor: Colors.grey,
-                  onTap: (){
+                  onTap: () {
                     showDialog(
-                      context: context, 
-                      builder: (BuildContext context){
-                        return Dialog(
-                          child: Container(
-                            width: 400,
-                            height: 400,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: _image != null ? FileImage(_image!) as ImageProvider : AssetImage(Data().imageProfile),
-                                fit: BoxFit.cover,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Dialog(
+                            child: Container(
+                              width: 400,
+                              height: 400,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: _image != null
+                                      ? FileImage(_image!) as ImageProvider
+                                      : AssetImage(Data().imageProfile),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }
-                    );
+                          );
+                        });
                   },
                   child: Container(
                     width: 68,
                     height: 68,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 1),
-                      borderRadius: const BorderRadius.all(Radius.circular(120)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(120)),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.54),
@@ -89,7 +94,9 @@ class _UbahAkun extends State<UbahAkun>{
                         ),
                       ],
                       image: DecorationImage(
-                        image: _image != null ? FileImage(_image!) as ImageProvider : AssetImage(Data().imageProfile),
+                        image: _image != null
+                            ? FileImage(_image!) as ImageProvider
+                            : AssetImage(Data().imageProfile),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -100,58 +107,78 @@ class _UbahAkun extends State<UbahAkun>{
                   bottom: 0,
                   child: InkWell(
                     splashColor: Colors.grey,
-                    onTap: (){
+                    onTap: () {
                       showModalBottomSheet(
-                        context: context, 
-                        builder: (builder){
+                        context: context,
+                        builder: (builder) {
                           return Container(
-                            color: const Color.fromRGBO(233, 206, 206, 1),
-                            height: 200,
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  InkWell(
-                                    focusColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    splashColor: Colors.grey,
-                                    onTap: (){
-                                      pickImage(ImageSource.camera);
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: const [
-                                        Icon(Icons.camera_enhance, size: 40,),
-                                        Text("Kamera", style: TextStyle(fontSize: 18),)
-                                      ],
+                              color: const Color.fromRGBO(233, 206, 206, 1),
+                              height: 200,
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    InkWell(
+                                      focusColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      splashColor: Colors.grey,
+                                      onTap: () {
+                                        pickImage(ImageSource.camera);
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: const [
+                                          Icon(
+                                            Icons.camera_enhance,
+                                            size: 40,
+                                          ),
+                                          Text(
+                                            "Kamera",
+                                            style: TextStyle(fontSize: 18),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 100,),
-                                  InkWell(
-                                    focusColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    splashColor: Colors.grey,
-                                    onTap: (){
-                                      pickImage(ImageSource.gallery);
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: const [
-                                        Icon(Icons.photo, size: 40,),
-                                        Text("Galeri", style: TextStyle(fontSize: 18),)
-                                      ],
+                                    const SizedBox(
+                                      width: 100,
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          );
+                                    InkWell(
+                                      focusColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      splashColor: Colors.grey,
+                                      onTap: () {
+                                        pickImage(ImageSource.gallery);
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: const [
+                                          Icon(
+                                            Icons.photo,
+                                            size: 40,
+                                          ),
+                                          Text(
+                                            "Galeri",
+                                            style: TextStyle(fontSize: 18),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ));
                         },
                       );
                     },
-                    child: const Icon(Icons.camera_enhance, color: Color.fromRGBO(227, 40, 96, 0.78),),
+                    child: const Icon(
+                      Icons.camera_enhance,
+                      color: Color.fromRGBO(227, 40, 96, 0.78),
+                    ),
                   ),
                 ),
               ],
@@ -164,101 +191,159 @@ class _UbahAkun extends State<UbahAkun>{
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.horizontal(left: Radius.circular(100), right: Radius.circular(100))
-                    ),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(100),
+                            right: Radius.circular(100))),
                     child: Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 18),
-                        child: Row(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Nama", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
-                          Text(Data().username, style: const TextStyle(fontSize: 16, color: Color.fromRGBO(161, 141, 141, 1)),)
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20,),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.horizontal(left: Radius.circular(100), right: Radius.circular(100))
-                    ),
-                    child: Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 18),
-                        child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("No. Telp", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
-                          Text(Data().username, style: const TextStyle(fontSize: 16, color: Color.fromRGBO(161, 141, 141, 1)),)
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20,),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.horizontal(left: Radius.circular(100), right: Radius.circular(100))
-                    ),
-                    child: Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 18),
-                        child: InkWell(
-                          splashColor: Colors.grey,
-                          onTap: (){
-                            Navigator.pushNamed(context, "/alamat");
-                          },
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Alamat", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
-                              Text(Data().username, style: const TextStyle(fontSize: 16, color: Color.fromRGBO(161, 141, 141, 1)),)
-                            ],
+                          const Text(
+                            "Nama",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
                           ),
-                        ),
-                    ),
-                  ),
-                  const SizedBox(height: 20,),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.horizontal(left: Radius.circular(100), right: Radius.circular(100))
-                    ),
-                    child: Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 18),
-                        child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Email", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
-                          Text(Data().username, style: const TextStyle(fontSize: 16, color: Color.fromRGBO(161, 141, 141, 1)),)
+                          Text(
+                            Data().username,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(161, 141, 141, 1)),
+                          )
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 76,),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(100),
+                            right: Radius.circular(100))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "No. Telp",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            Data().username,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(161, 141, 141, 1)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(100),
+                            right: Radius.circular(100))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: InkWell(
+                        splashColor: Colors.grey,
+                        onTap: () {
+                          Navigator.pushNamed(context, "/alamat");
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Alamat",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            Text(
+                              Data().username,
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromRGBO(161, 141, 141, 1)),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(100),
+                            right: Radius.circular(100))),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 18, right: 18),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Email",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          Text(
+                            Data().username,
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(161, 141, 141, 1)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 76,
+                  ),
                   Card(
                     color: const Color.fromRGBO(227, 40, 96, 0.78),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)
-                    ),
+                        borderRadius: BorderRadius.circular(15)),
                     child: SizedBox(
                       height: 50,
                       child: InkWell(
                         child: const Center(
-                          child: Text("SIMPAN", style: TextStyle(color: Colors.white),),
+                          child: Text(
+                            "SIMPAN",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
-                        onTap: (){},
+                        onTap: () {},
                       ),
                     ),
                   ),

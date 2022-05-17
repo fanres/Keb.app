@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:kebapp/view/auth/lupa_katasandi.dart';
 import 'package:kebapp/view/auth/register.dart';
@@ -158,6 +159,7 @@ class _LoginPage extends State<LoginPage>{
                                       ),
                                       onTap: (){
                                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                                          
                                           return MyBottomNavigationBar();
                                         }));
                                       },
