@@ -37,8 +37,7 @@ class MyApp extends StatelessWidget {
         LoginPage.routeName: (context) => LoginPage(),
         RegisterPage.routeName: (context) => RegisterPage(),
         LupaKataSandi.routeName: (context) => LupaKataSandi(),
-        MyBottomNavigationBar.routeName: (context) =>
-            const MyBottomNavigationBar(),
+        MyBottomNavigationBar.routeName: (context) => const MyBottomNavigationBar(),
         Menu.routeName: (context) => Menu(),
         Keranjang.routeName: (context) => Keranjang(),
         MyProfile.routeName: (context) => MyProfile(),
@@ -48,8 +47,7 @@ class MyApp extends StatelessWidget {
         DetailKebab.routeName: (context) => DetailKebab(
               detailImage: ModalRoute.of(context)?.settings.arguments as String,
               detailPrice: ModalRoute.of(context)?.settings.arguments as int,
-              detailToping:
-                  ModalRoute.of(context)?.settings.arguments as String,
+              detailToping:ModalRoute.of(context)?.settings.arguments as String,
               totalPriceSize: ModalRoute.of(context)?.settings.arguments as int,
               typeSize: ModalRoute.of(context)?.settings.arguments as String,
             ),
