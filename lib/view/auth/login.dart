@@ -75,11 +75,11 @@ class _LoginPage extends State<LoginPage>{
                             padding: const EdgeInsets.only(left: 23, right: 23),
                             child: Column(
                               children: [
-                                const SizedBox(height: 52,),
+                                const SizedBox(height: 30,),
                                 TextFormField(
                                   validator: (value){
                                     if (value!.isEmpty){
-                                      return 'Isi dengan benar!!!';
+                                      return 'Pastikan Tidak Kosong!!!';
                                     }
                                     return null;
                                   },
@@ -87,8 +87,6 @@ class _LoginPage extends State<LoginPage>{
                                   controller: nUsernameController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "Enter email or username",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "Email or Username",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
@@ -106,7 +104,7 @@ class _LoginPage extends State<LoginPage>{
                                 TextFormField(
                                   validator: (value){
                                     if (value!.isEmpty){
-                                      return 'Isi dengan benar!!!';
+                                      return 'Pastikan Tidak Kosong!!!';
                                     }
                                     return null;
                                   },
@@ -115,8 +113,6 @@ class _LoginPage extends State<LoginPage>{
                                   controller: nPasswordController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "Password",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "Password",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
@@ -136,13 +132,11 @@ class _LoginPage extends State<LoginPage>{
                                   child: InkWell(
                                     child: const Text("Lupa kata sandi?", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: Colors.black),),
                                     onTap: (){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return LupaKataSandi();
-                                      }));
+                                      Navigator.pushNamed(context, "/forget_password");
                                     },
                                   ),
                                 ),
-                                const SizedBox(height: 55,),
+                                const SizedBox(height: 35,),
                                 Card(
                                   color: const Color.fromRGBO(227, 40, 96, 0.78),
                                   elevation: 5,
@@ -158,10 +152,31 @@ class _LoginPage extends State<LoginPage>{
                                         child: Text("LOG IN", style: TextStyle(fontSize: 18, color: Colors.white),),
                                       ),
                                       onTap: (){
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                                          
-                                          return MyBottomNavigationBar();
-                                        }));
+                                        nUsername = nUsernameController.text;
+                                        nPassword = nPasswordController.text;
+                                        if(_formKey.currentState!.validate()){
+                                          if(nUsername == "admin" && nPassword == "admin123"){
+                                            Navigator.pushReplacementNamed(context, "/bottom_navbar");
+                                          } else {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text("Username atau Password Salah"),
+                                                  content: const Text("Pastikan Username atau Password Anda benar"),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: (){
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text("OK"),
+                                                    ),
+                                                  ],
+                                                );
+                                              }
+                                            );
+                                          }
+                                        }
                                       },
                                     ),
                                   ),
@@ -176,9 +191,7 @@ class _LoginPage extends State<LoginPage>{
                                     InkWell(
                                       child: const Text("Daftar", style: TextStyle(fontSize: 13, color: Color.fromRGBO(238, 41, 41, 0.7)),),
                                       onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context){
-                                          return RegisterPage();
-                                        }));
+                                        Navigator.pushNamed(context, "/register_page");
                                       },
                                     ),
                                   ],
