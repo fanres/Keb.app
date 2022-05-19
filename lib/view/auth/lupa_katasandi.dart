@@ -3,7 +3,7 @@ import 'package:kebapp/view/auth/login.dart';
 
 class LupaKataSandi extends StatefulWidget{
   const LupaKataSandi({Key? key}) : super(key: key);
-  static const routeName = "/register_page";
+  static const routeName = "/forget_password";
 
   @override
   State<LupaKataSandi> createState() => _LupaKataSandi();
@@ -85,8 +85,6 @@ class _LupaKataSandi extends State<LupaKataSandi>{
                                   controller: nEmailController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "Email",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "Email",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
@@ -113,8 +111,6 @@ class _LupaKataSandi extends State<LupaKataSandi>{
                                   controller: nNewPasswordController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "New Password",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "New Password",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
