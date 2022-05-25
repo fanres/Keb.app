@@ -3,8 +3,8 @@ import 'package:kebapp/view/auth/login.dart';
 
 class SplashScreen extends StatelessWidget{
   const SplashScreen({Key? key}) : super(key: key);
-  static const routeName = "/splash_screen";
-
+ 
+ static const routeName = "/splash_screen";
   @override
   Widget build(BuildContext context){
     return Container(

@@ -14,8 +14,16 @@ import 'package:kebapp/view/auth_user/ui/profil/tentang_kami.dart';
 import 'package:kebapp/view/auth_user/ui/profil/ubah_akun.dart';
 import 'package:kebapp/view/splash_screen/splash_screen.dart';
 import 'package:kebapp/view/widget/bottom_navbar.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 

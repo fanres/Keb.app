@@ -9,8 +9,6 @@ class RegisterPage extends StatefulWidget{
   State<RegisterPage> createState() => _RegisterPage();
 }
 
-
-//buat variabel untuk menyimpan nilai di form
 class _RegisterPage extends State<RegisterPage>{
   final _formKey = GlobalKey<FormState>();
   final nUsernameController = TextEditingController();
@@ -88,8 +86,6 @@ class _RegisterPage extends State<RegisterPage>{
                                   controller: nUsernameController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "Username",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "Username",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
@@ -115,8 +111,6 @@ class _RegisterPage extends State<RegisterPage>{
                                   controller: nEmailController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "Email",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "Email",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
@@ -143,8 +137,6 @@ class _RegisterPage extends State<RegisterPage>{
                                   controller: nPasswordController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "Password",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "Password",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
@@ -171,8 +163,6 @@ class _RegisterPage extends State<RegisterPage>{
                                   controller: nRetypePasswordController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    labelText: "Retype Password",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     hintText: "Retype Password",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),

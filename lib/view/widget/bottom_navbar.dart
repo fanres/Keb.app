@@ -12,7 +12,7 @@ class MyBottomNavigationBar extends StatefulWidget{
 }
 
 class _MyBottomNavigationBar extends State<MyBottomNavigationBar>{
-  int _currentIndex = 0;
+  int _currentIndex = 0;   //deklarasi index
   final List<Widget> _children = [
     Menu(),
     Keranjang(),
