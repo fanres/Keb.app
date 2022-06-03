@@ -17,7 +17,7 @@ class UbahAkun extends StatefulWidget {
 class _UbahAkun extends State<UbahAkun> {
   File? _image;
   final pickerImage = ImagePicker();
-
+  
   Future pickImage(ImageSource source) async {
     try {
       final imagePicked = await ImagePicker().pickImage(source: source);
