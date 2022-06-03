@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kebapp/view/auth/login.dart';
 
+
 class RegisterPage extends StatefulWidget{
   const RegisterPage({Key? key}) : super(key: key);
   static const routeName = "/register_page";
@@ -11,11 +12,14 @@ class RegisterPage extends StatefulWidget{
 
 class _RegisterPage extends State<RegisterPage>{
   final _formKey = GlobalKey<FormState>();
+  final nNameController = TextEditingController();
   final nUsernameController = TextEditingController();
+  final nTelpController = TextEditingController();
   final nEmailController = TextEditingController();
   final nPasswordController = TextEditingController();
   final nRetypePasswordController = TextEditingController();
-  late String nUsername, nEmail, nPassword, nRetypePassword;
+  
+  final CollectionReference _userAkun = FirebaseFirestore.instance.collection("akun_user");
 
   @override
   Widget build(BuildContext context){
@@ -83,10 +87,60 @@ class _RegisterPage extends State<RegisterPage>{
                                     return null;
                                   },
                                   autofocus: false,
+                                  controller: nNameController,
+                                  decoration: const InputDecoration(
+                                    filled: true,
+                                    hintText: "Nama Lengkap",
+                                    hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
+                                    focusColor: Color.fromRGBO(233, 206, 206, 1),
+                                    fillColor: Color.fromRGBO(233, 206, 206, 1),
+                                    contentPadding: EdgeInsets.only(top: 5, left: 10),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 17,),
+                                TextFormField(
+                                  validator: (value){
+                                    if (value!.isEmpty){
+                                      return 'Isi dengan benar!!!';
+                                    }
+                                    return null;
+                                  },
+                                  autofocus: false,
                                   controller: nUsernameController,
                                   decoration: const InputDecoration(
                                     filled: true,
                                     hintText: "Username",
+                                    hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
+                                    focusColor: Color.fromRGBO(233, 206, 206, 1),
+                                    fillColor: Color.fromRGBO(233, 206, 206, 1),
+                                    contentPadding: EdgeInsets.only(top: 5, left: 10),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 17,),
+                                TextFormField(
+                                  validator: (value){
+                                    if (value!.isEmpty){
+                                      return 'Isi dengan benar!!!';
+                                    }
+                                    return null;
+                                  },
+                                  autofocus: false,
+                                  controller: nTelpController,
+                                  decoration: const InputDecoration(
+                                    filled: true,
+                                    hintText: "No. Telepon",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
                                     fillColor: Color.fromRGBO(233, 206, 206, 1),
@@ -192,9 +246,17 @@ class _RegisterPage extends State<RegisterPage>{
                                         child: Text("DAFTAR", style: TextStyle(fontSize: 18, color: Colors.white),),
                                       ),
                                       onTap: (){
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                                          return LoginPage();
-                                        }));
+                                        if(_formKey.currentState!.validate()) {
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Akun Anda berhasil ditambahkan")));
+
+                                          nUsernameController.text = "";
+                                          nEmailController.text = "";
+                                          nPasswordController.text = "";
+                                          nRetypePasswordController.text = "";
+                                        }
+                                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                                        //   return LoginPage();
+                                        // }));
                                       },
                                     ),
                                   ),
