@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "590134154838",
+    "project_id": "kebapp-apps",
+    "storage_bucket": "kebapp-apps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590134154838:android:a37f919a909b768b014df7",
+        "android_client_info": {
+          "package_name": "com.example.kebapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "590134154838-0lcs3768v09rma4n57u3lmk5c50tmf83.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDsHbrRmDTVUnUwEopbK_cDK1StRzIwbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "590134154838-0lcs3768v09rma4n57u3lmk5c50tmf83.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
