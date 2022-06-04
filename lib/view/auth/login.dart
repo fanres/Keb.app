@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kebapp/view/auth/lupa_katasandi.dart';
 import 'package:kebapp/view/auth/register.dart';
 import 'package:kebapp/view/widget/bottom_navbar.dart';
@@ -16,6 +18,10 @@ class _LoginPage extends State<LoginPage>{
   final nUsernameController = TextEditingController();
   final nPasswordController = TextEditingController();
   late String nUsername, nPassword;
+  
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final CollectionReference _userAkun = FirebaseFirestore.instance.collection("akun_user");
 
   @override
   Widget build(BuildContext context){
@@ -150,30 +156,19 @@ class _LoginPage extends State<LoginPage>{
                                       child: const Center(
                                         child: Text("LOG IN", style: TextStyle(fontSize: 18, color: Colors.white),),
                                       ),
-                                      onTap: (){
-                                        nUsername = nUsernameController.text;
-                                        nPassword = nPasswordController.text;
+                                      onTap: () async {
                                         if(_formKey.currentState!.validate()){
-                                          if(nUsername == "admin" && nPassword == "admin123"){
+                                          // await AuthServices.signIn(nUsernameController.text, nPasswordController.text);
+                                          try {
+                                            UserCredential result = await _auth.signInWithEmailAndPassword(email: nUsernameController.text, password: nPasswordController.text);
+                                            User? firebaseUser = result.user;
+                                            print(firebaseUser);
+
                                             Navigator.pushReplacementNamed(context, "/bottom_navbar");
-                                          } else {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: const Text("Username atau Password Salah"),
-                                                  content: const Text("Pastikan Username atau Password Anda benar"),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: (){
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: const Text("OK"),
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                            );
+                                          } catch(e) {
+                                            print(e.toString());
+
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Gagal. Pastikan Email/Username atau Password Anda Benar")));
                                           }
                                         }
                                       },
