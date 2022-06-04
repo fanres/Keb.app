@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:kebapp/view/auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 
 class RegisterPage extends StatefulWidget{
@@ -19,7 +22,9 @@ class _RegisterPage extends State<RegisterPage>{
   final nEmailController = TextEditingController();
   final nPasswordController = TextEditingController();
   final nRetypePasswordController = TextEditingController();
-  
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   final CollectionReference _userAkun = FirebaseFirestore.instance.collection("akun_user");
 
   @override
@@ -63,7 +68,7 @@ class _RegisterPage extends State<RegisterPage>{
                   const SizedBox(height: 70,),
                   Container(
                     width: 307,
-                    height: 507,
+                    height: MediaQuery.of(context).size.height,
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(243, 234, 234, 1),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -79,7 +84,7 @@ class _RegisterPage extends State<RegisterPage>{
                             padding: const EdgeInsets.only(left: 23, right: 23),
                             child: Column(
                               children: [
-                                const SizedBox(height: 52,),
+                                const SizedBox(height: 32,),
                                 TextFormField(
                                   validator: (value){
                                     if (value!.isEmpty){
@@ -184,6 +189,8 @@ class _RegisterPage extends State<RegisterPage>{
                                   validator: (value){
                                     if (value!.isEmpty){
                                       return 'Isi dengan benar!!!';
+                                    } else if (value.length < 6) {
+                                      return "Minimal 6 karakter";
                                     }
                                     return null;
                                   },
@@ -210,6 +217,8 @@ class _RegisterPage extends State<RegisterPage>{
                                   validator: (value){
                                     if (value!.isEmpty){
                                       return 'Isi dengan benar!!!';
+                                    } else if (value != nPasswordController.text) {
+                                      return "Tidak sama dengan Password";
                                     }
                                     return null;
                                   },
@@ -231,7 +240,7 @@ class _RegisterPage extends State<RegisterPage>{
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 60,),
+                                const SizedBox(height: 40,),
                                 Card(
                                   color: const Color.fromRGBO(227, 40, 96, 0.78),
                                   elevation: 5,
@@ -246,14 +255,27 @@ class _RegisterPage extends State<RegisterPage>{
                                       child: const Center(
                                         child: Text("DAFTAR", style: TextStyle(fontSize: 18, color: Colors.white),),
                                       ),
-                                      onTap: (){
+                                      onTap: () async {
                                         if(_formKey.currentState!.validate()) {
+                                          _userAkun.add({
+                                            "nama": nNameController.text,
+                                            "username": nUsernameController.text,
+                                            "telp": nTelpController.text,
+                                            "email": nEmailController.text,
+                                            "password": nPasswordController.text
+                                          });
+
+                                          _auth.createUserWithEmailAndPassword(email: nEmailController.text, password: nPasswordController.text);
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Akun Anda berhasil ditambahkan")));
 
+                                          nNameController.text = "";
                                           nUsernameController.text = "";
+                                          nTelpController.text = "";
                                           nEmailController.text = "";
                                           nPasswordController.text = "";
                                           nRetypePasswordController.text = "";
+
+                                          Navigator.of(context).pushNamedAndRemoveUntil('/login_page', (Route<dynamic> routeName) => false);
                                         }
                                         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
                                         //   return LoginPage();
