@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import "dart:io";
 import 'package:kebapp/data.dart';
+import 'package:kebapp/view/auth_user/ui/menu/detail_kebab.dart';
 
 class Menu extends StatefulWidget{
   const Menu({Key? key}) : super(key: key);
@@ -63,6 +63,7 @@ class _Menu extends State<Menu>{
           ],
         ),
       ),
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 22, right: 22, top: 10),
@@ -224,7 +225,7 @@ class _Menu extends State<Menu>{
                   ),
                 ],
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(height: 20,),
               const Text(
                 "Extra Toping",
                 style: TextStyle(
@@ -234,6 +235,94 @@ class _Menu extends State<Menu>{
                 ),
               ),
               const SizedBox(height: 10,),
+              GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 200,
+                  childAspectRatio: 3 / 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  mainAxisExtent: 230,
+                ), 
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: Data().menu.length,
+                itemBuilder: (context, index){
+                  return Card(
+                    color: Colors.white,
+                    elevation: 10,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15),),
+                    ),
+                    child: SizedBox(
+                      child: InkWell(
+                        splashColor: Colors.grey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Image.network(
+                                  Data().menuImage[index],
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(Data().menu[index], style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                                Text("+${Data().price[index].toString()}K")
+                              ],
+                            )
+                          ],
+                        ),
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            if(_value == 1){
+                              return DetailKebab(
+                                detailToping: Data().menu[index],
+                                detailPrice: Data().price[index],
+                                detailImage: Data().menuImage[index],
+                                totalPriceSize: 8000,
+                                typeSize: "S",
+                              );
+                            } else if(_value == 2){
+                              return DetailKebab(
+                                detailToping: Data().menu[index],
+                                detailPrice: Data().price[index],
+                                detailImage: Data().menuImage[index],
+                                totalPriceSize: 10000,
+                                typeSize: "M",
+                              );
+                            } else if(_value == 3){
+                              return DetailKebab(
+                                detailToping: Data().menu[index],
+                                detailPrice: Data().price[index],
+                                detailImage: Data().menuImage[index],
+                                totalPriceSize: 15000,
+                                typeSize: "L",
+                              );
+                            } else {
+                              return DetailKebab(
+                                detailToping: Data().menu[index],
+                                detailPrice: Data().price[index],
+                                detailImage: Data().menuImage[index],
+                                totalPriceSize: 0,
+                                typeSize: "",
+                              );
+                            }
+                          }));
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
