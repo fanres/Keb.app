@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
-import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kebapp/data.dart';
 
 class MyProfile extends StatelessWidget {
-  const MyProfile({Key? key}) : super(key: key);
+  MyProfile({Key? key}) : super(key: key);
   static const routeName = "/profil";
   static const IconData pen = IconData(0xf2bf);
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -223,7 +225,8 @@ class MyProfile extends StatelessWidget {
                                           ),
                                         ),
                                         TextButton(
-                                          onPressed: () {
+                                          onPressed: () async {
+                                            _auth.signOut();
                                             Navigator.of(context)
                                                 .pushNamedAndRemoveUntil(
                                                     '/login_page',
