@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:kebapp/data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kebapp/view/auth_user/ui/keranjang/keranjang.dart';
 
 class DetailKebab extends StatelessWidget {
@@ -14,6 +15,9 @@ class DetailKebab extends StatelessWidget {
   static const routeName = "/detail_kebab";
   late String detailToping, detailImage, typeSize;
   late int detailPrice, totalPriceSize;
+
+  final CollectionReference _tempKeranjang =
+      FirebaseFirestore.instance.collection("temp_keranjang");
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +121,27 @@ class DetailKebab extends StatelessWidget {
                   child: InkWell(
                     splashColor: Colors.white,
                     onTap: () {
-                      Data().keranjang[0]["menu"].add(detailToping);
-                      print(Data().keranjang[0]["menu"]);
+                      if (typeSize == "") {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    "Pilih Ukuran Kebab Terlebih Dahulu")));
+                      } else {
+                        _tempKeranjang.add({
+                          "item": detailToping,
+                          "image": detailImage,
+                          "qty": 1,
+                          "size": typeSize,
+                          "sizePrice": totalPriceSize,
+                          "toppingPrice": detailPrice,
+                          "totalPrice": detailPrice + totalPriceSize,
+                          "value": false
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text("Berhasil Ditambahkan ke Keranjang")));
+                      }
                     },
                     child: const Center(
                       child: Text(
