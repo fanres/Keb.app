@@ -238,11 +238,13 @@ class _Menu extends State<Menu>{
                 ),
               ),
               const SizedBox(height: 10,),
+
+              // Sebagai penghubung ke firestore
               StreamBuilder(
                 stream: _menu.snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.hasData) {
-                    // buat menampilkan semua data di dalam database dalam bentuk gridview
+                    // Buat menampilkan semua data di dalam database dalam bentuk grid view
                     return GridView.builder(
                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
@@ -253,11 +255,12 @@ class _Menu extends State<Menu>{
                       ), 
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      //untuk menghitung jumlah data
+                      // Untuk menghitung jumlah data
                       itemCount: streamSnapshot.data!.docs.length,
-                      //sebagai builder
+
+                      // Sebagai builder
                       itemBuilder: (context, index){
-                        //untuk mengambil data di index
+                        // Untuk mengambil data di index
                         final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
                         return Card(
                           color: Colors.white,
@@ -277,6 +280,7 @@ class _Menu extends State<Menu>{
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(30),
                                       child: Image.network(
+                                        // Untuk mengambil data di field image
                                         documentSnapshot["image"],
                                         width: MediaQuery.of(context).size.width,
                                         height: 150,
@@ -287,14 +291,19 @@ class _Menu extends State<Menu>{
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
-                                      Text(documentSnapshot["item"], style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                                      Text("+${documentSnapshot["price"]}K")       //mengambil data di field price
+                                      Text(
+                                        // Untuk mengambil data di field item
+                                        documentSnapshot["item"], 
+                                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                                      ),
+                                      Text("+${documentSnapshot["price"]}K") // Mengambil data di field price
                                     ],
                                   )
                                 ],
                               ),
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context){
+                                  // Menambahkan data dari menu ke detail kebab
                                   if(_value == 1){
                                     return DetailKebab(
                                       detailToping: documentSnapshot["item"],
