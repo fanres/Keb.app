@@ -242,6 +242,7 @@ class _Menu extends State<Menu>{
                 stream: _menu.snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.hasData) {
+                    // buat menampilkan semua data di dalam database dalam bentuk gridview
                     return GridView.builder(
                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
@@ -252,8 +253,11 @@ class _Menu extends State<Menu>{
                       ), 
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
+                      //untuk menghitung jumlah data
                       itemCount: streamSnapshot.data!.docs.length,
+                      //sebagai builder
                       itemBuilder: (context, index){
+                        //untuk mengambil data di index
                         final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
                         return Card(
                           color: Colors.white,
@@ -284,7 +288,7 @@ class _Menu extends State<Menu>{
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       Text(documentSnapshot["item"], style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-                                      Text("+${documentSnapshot["price"]}K")
+                                      Text("+${documentSnapshot["price"]}K")       //mengambil data di field price
                                     ],
                                   )
                                 ],
