@@ -16,8 +16,8 @@ class DetailKebab extends StatelessWidget {
   late String detailToping, detailImage, typeSize;
   late int detailPrice, totalPriceSize;
 
-  final CollectionReference _tempKeranjang =
-      FirebaseFirestore.instance.collection("temp_keranjang");
+   // Menghubungan ke table temp_keranjang
+  final CollectionReference _tempKeranjang = FirebaseFirestore.instance.collection("temp_keranjang");
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +112,7 @@ class DetailKebab extends StatelessWidget {
                 color: const Color.fromRGBO(227, 40, 96, 0.78),
                 elevation: 5,
                 shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.horizontal(
-                      left: Radius.circular(20), right: Radius.circular(20)),
+                  borderRadius: BorderRadius.horizontal(left: Radius.circular(20), right: Radius.circular(20)),
                 ),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width / 1.5,
@@ -122,11 +121,9 @@ class DetailKebab extends StatelessWidget {
                     splashColor: Colors.white,
                     onTap: () {
                       if (typeSize == "") {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    "Pilih Ukuran Kebab Terlebih Dahulu")));
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Pilih Ukuran Kebab Terlebih Dahulu")));
                       } else {
+                        // Menambahkan data ke table keranjang di firestore
                         _tempKeranjang.add({
                           "item": detailToping,
                           "image": detailImage,
@@ -137,11 +134,7 @@ class DetailKebab extends StatelessWidget {
                           "totalPrice": detailPrice + totalPriceSize,
                           "value": false
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text("Berhasil Ditambahkan ke Keranjang")));
-                      }
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:Text("Berhasil Ditambahkan ke Keranjang")));}
                     },
                     child: const Center(
                       child: Text(
