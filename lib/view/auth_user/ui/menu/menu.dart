@@ -80,28 +80,28 @@ class _Menu extends State<Menu>{
                 ),
               ),
               const SizedBox(height: 10,),
-              Form(
-                child: TextFormField(
-                  autofocus: false,
-                  controller: searchController,
-                  onChanged: (value){
+              TextField(
+                autofocus: false,
+                controller: searchController,
+                onChanged: (value){
+                  setState(() {
                     searchString = value.toLowerCase();
-                  },
-                  decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    focusColor: Colors.white,
-                    prefixIcon: Icon(Icons.search, color: Colors.black,),
-                    hintText: "Search For A Food Item",
-                    contentPadding: EdgeInsets.only(top: 5,),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.all(Radius.circular(100))
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.all(Radius.circular(100))
-                    ),
+                  });
+                },
+                decoration: const InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  focusColor: Colors.white,
+                  prefixIcon: Icon(Icons.search, color: Colors.black,),
+                  hintText: "Search For A Food Item",
+                  contentPadding: EdgeInsets.only(top: 5,),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(100))
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.all(Radius.circular(100))
                   ),
                 ),
               ),
@@ -244,7 +244,7 @@ class _Menu extends State<Menu>{
                 stream: _menu.snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.hasData) {
-                    // Buat menampilkan semua data di dalam database dalam bentuk grid view
+                    // Untuk menampilkan semua data di dalam database dalam bentuk grid view
                     return GridView.builder(
                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
@@ -257,12 +257,15 @@ class _Menu extends State<Menu>{
                       shrinkWrap: true,
                       // Untuk menghitung jumlah data
                       itemCount: streamSnapshot.data!.docs.length,
-
                       // Sebagai builder
                       itemBuilder: (context, index){
                         // Untuk mengambil data di index
                         final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
-                        return Card(
+                        // Search
+                        return documentSnapshot["item"]
+                          .toLowerCase()
+                          .contains(searchString)
+                        ? Card(
                           color: Colors.white,
                           elevation: 10,
                           shape: const RoundedRectangleBorder(
@@ -341,7 +344,7 @@ class _Menu extends State<Menu>{
                               },
                             ),
                           ),
-                        );
+                        ) : const SizedBox();
                       },
                     );
                   } else {
