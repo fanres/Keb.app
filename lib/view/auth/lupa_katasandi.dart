@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kebapp/view/auth/login.dart';
 
@@ -12,9 +13,8 @@ class LupaKataSandi extends StatefulWidget{
 class _LupaKataSandi extends State<LupaKataSandi>{
   final _formKey = GlobalKey<FormState>();
   final nEmailController = TextEditingController();
-  final nNewPasswordController = TextEditingController();
-  final nRetypeNewPasswordController = TextEditingController();
-  late String nUsername, nEmail, nNewPassword, nRetypeNewPassword;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context){
@@ -57,7 +57,9 @@ class _LupaKataSandi extends State<LupaKataSandi>{
                   const SizedBox(height: 70,),
                   Container(
                     width: 307,
-                    height: 507,
+                    constraints: const BoxConstraints(
+                      maxHeight: double.infinity,
+                    ),
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(243, 234, 234, 1),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -98,61 +100,7 @@ class _LupaKataSandi extends State<LupaKataSandi>{
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 17,),
-                                TextFormField(
-                                  validator: (value){
-                                    if (value!.isEmpty){
-                                      return 'Isi dengan benar!!!';
-                                    }
-                                    return null;
-                                  },
-                                  autofocus: false,
-                                  obscureText: true,
-                                  controller: nNewPasswordController,
-                                  decoration: const InputDecoration(
-                                    filled: true,
-                                    hintText: "New Password",
-                                    hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
-                                    focusColor: Color.fromRGBO(233, 206, 206, 1),
-                                    fillColor: Color.fromRGBO(233, 206, 206, 1),
-                                    contentPadding: EdgeInsets.only(top: 5, left: 10),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 17,),
-                                TextFormField(
-                                  validator: (value){
-                                    if (value!.isEmpty){
-                                      return 'Isi dengan benar!!!';
-                                    }
-                                    return null;
-                                  },
-                                  autofocus: false,
-                                  obscureText: true,
-                                  controller: nRetypeNewPasswordController,
-                                  decoration: const InputDecoration(
-                                    filled: true,
-                                    labelText: "Retype New Password",
-                                    labelStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
-                                    hintText: "Retype New Password",
-                                    hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
-                                    focusColor: Color.fromRGBO(233, 206, 206, 1),
-                                    fillColor: Color.fromRGBO(233, 206, 206, 1),
-                                    contentPadding: EdgeInsets.only(top: 5, left: 10),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color.fromRGBO(233, 206, 206, 1))
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 60,),
+                                const SizedBox(height: 50,),
                                 Card(
                                   color: const Color.fromRGBO(227, 40, 96, 0.78),
                                   elevation: 5,
@@ -165,16 +113,24 @@ class _LupaKataSandi extends State<LupaKataSandi>{
                                     child: InkWell(
                                       splashColor: Colors.white,
                                       child: const Center(
-                                        child: Text("SUBMIT", style: TextStyle(fontSize: 18, color: Colors.white),),
+                                        child: Text("Send Request", style: TextStyle(fontSize: 18, color: Colors.white),),
                                       ),
                                       onTap: (){
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                                          return LoginPage();
-                                        }));
+                                        if (_formKey.currentState!.validate()) {
+                                          try {
+                                            _auth.sendPasswordResetEmail(email: nEmailController.text);
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Silakan Cek Email Anda")));
+                                            Navigator.of(context).pushNamedAndRemoveUntil('/login_page', (Route<dynamic> routeName) => false);
+                                          } catch(e) {
+                                            print(e.toString());
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Silakan Coba Lagi")));
+                                          }
+                                        }
                                       },
                                     ),
                                   ),
                                 ),
+                                const SizedBox(height: 40,),
                               ],
                             ),
                           ),
