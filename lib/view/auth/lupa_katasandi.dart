@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kebapp/view/auth/login.dart';
 
 class LupaKataSandi extends StatefulWidget{
   const LupaKataSandi({Key? key}) : super(key: key);
@@ -118,7 +117,8 @@ class _LupaKataSandi extends State<LupaKataSandi>{
                                       onTap: (){
                                         if (_formKey.currentState!.validate()) {
                                           try {
-                                            _auth.sendPasswordResetEmail(email: nEmailController.text);
+                                            // Merubah password
+                                            _auth.sendPasswordResetEmail(email: nEmailController.text.toLowerCase());
                                             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Silakan Cek Email Anda")));
                                             Navigator.of(context).pushNamedAndRemoveUntil('/login_page', (Route<dynamic> routeName) => false);
                                           } catch(e) {
