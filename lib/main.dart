@@ -3,6 +3,9 @@ import 'package:kebapp/view/auth/login.dart';
 import 'package:kebapp/view/auth/lupa_katasandi.dart';
 import 'package:kebapp/view/auth/register.dart';
 import 'package:kebapp/view/auth_user/ui/keranjang/keranjang.dart';
+import 'package:kebapp/view/auth_user/ui/keranjang/order.dart';
+import 'package:kebapp/view/auth_user/ui/keranjang/order_done.dart';
+import 'package:kebapp/view/auth_user/ui/keranjang/order_on_progress.dart';
 import 'package:kebapp/view/auth_user/ui/menu/detail_kebab.dart';
 import 'package:kebapp/view/auth_user/ui/menu/menu.dart';
 import 'package:kebapp/view/auth_user/ui/profil/alamat.dart';
@@ -36,32 +39,69 @@ class MyApp extends StatelessWidget {
       title: 'Keb.app',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const SplashScreen(),
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
-        LoginPage.routeName: (context) => LoginPage(),
-        RegisterPage.routeName: (context) => RegisterPage(),
-        LupaKataSandi.routeName: (context) => LupaKataSandi(),
-        MyBottomNavigationBar.routeName: (context) => const MyBottomNavigationBar(),
-        Menu.routeName: (context) => Menu(),
-        Keranjang.routeName: (context) => Keranjang(),
-        MyProfile.routeName: (context) => MyProfile(),
-        UbahAkun.routeName: (context) => UbahAkun(),
-        Riwayat.routeName: (context) => Riwayat(),
-        TentangKami.routeName: (context) => TentangKami(),
+        LoginPage.routeName: (context) => const LoginPage(),
+        RegisterPage.routeName: (context) => const RegisterPage(),
+        LupaKataSandi.routeName: (context) => const LupaKataSandi(),
+        MyBottomNavigationBar.routeName: (context) => MyBottomNavigationBar(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        Menu.routeName: (context) => Menu(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        Keranjang.routeName: (context) => Keranjang(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        MyProfile.routeName: (context) => MyProfile(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        UbahAkun.routeName: (context) => UbahAkun(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        Riwayat.routeName: (context) => Riwayat(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        TentangKami.routeName: (context) => const TentangKami(),
         DetailKebab.routeName: (context) => DetailKebab(
-              detailImage: ModalRoute.of(context)?.settings.arguments as String,
-              detailPrice: ModalRoute.of(context)?.settings.arguments as int,
-              detailToping:ModalRoute.of(context)?.settings.arguments as String,
-              totalPriceSize: ModalRoute.of(context)?.settings.arguments as int,
-              typeSize: ModalRoute.of(context)?.settings.arguments as String,
-            ),
-        Alamat.routeName: (context) => Alamat(),
-        AlamatBaru.routeName: (context) => AlamatBaru(),
-        GoogleMapsScreen.routeName: (context) => GoogleMapsScreen(),
+          email: ModalRoute.of(context)?.settings.arguments as String,
+          detailImage: ModalRoute.of(context)?.settings.arguments as String,
+          detailPrice: ModalRoute.of(context)?.settings.arguments as int,
+          detailToping: ModalRoute.of(context)?.settings.arguments as String,
+          totalPriceSize: ModalRoute.of(context)?.settings.arguments as int,
+          typeSize: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        Alamat.routeName: (context) => Alamat(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        AlamatBaru.routeName: (context) => AlamatBaru(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+          indexAlamat: ModalRoute.of(context)?.settings.arguments as int,
+          nama: ModalRoute.of(context)?.settings.arguments as String,
+          nomor: ModalRoute.of(context)?.settings.arguments as String,
+          jalan: ModalRoute.of(context)?.settings.arguments as String,
+        ),
+        GoogleMapsScreen.routeName: (context) => GoogleMapsScreen(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+          indexAlamat: ModalRoute.of(context)?.settings.arguments as int,
+        ),
+        Order.routeName: (context) => Order(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+          totalPrice: ModalRoute.of(context)?.settings.arguments as int,
+          countItem: ModalRoute.of(context)?.settings.arguments as int,
+        ),
+        OrderOnProgress.routeName: (context) => OrderOnProgress(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+          latitude: ModalRoute.of(context)?.settings.arguments as double,
+          longitude: ModalRoute.of(context)?.settings.arguments as double,
+        ),
+        OrderComplete.routeName: (context) => OrderComplete(
+          emailSend: ModalRoute.of(context)?.settings.arguments as String,
+        ),
       },
     );
   }
