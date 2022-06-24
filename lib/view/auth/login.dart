@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kebapp/view/auth/lupa_katasandi.dart';
-import 'package:kebapp/view/auth/register.dart';
 import 'package:kebapp/view/widget/bottom_navbar.dart';
 
 class LoginPage extends StatefulWidget{
@@ -15,13 +12,10 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPage extends State<LoginPage>{
   final _formKey = GlobalKey<FormState>();
-  final nUsernameController = TextEditingController();
+  final nEmailController = TextEditingController();
   final nPasswordController = TextEditingController();
-  late String nUsername, nPassword;
-  
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final CollectionReference _userAkun = FirebaseFirestore.instance.collection("akun_user");
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context){
@@ -64,7 +58,9 @@ class _LoginPage extends State<LoginPage>{
                   const SizedBox(height: 70,),
                   Container(
                     width: 307,
-                    height: 507,
+                    constraints: const BoxConstraints(
+                      maxHeight: double.infinity,
+                    ),
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(243, 234, 234, 1),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -89,10 +85,10 @@ class _LoginPage extends State<LoginPage>{
                                     return null;
                                   },
                                   autofocus: false,
-                                  controller: nUsernameController,
+                                  controller: nEmailController,
                                   decoration: const InputDecoration(
                                     filled: true,
-                                    hintText: "Email or Username",
+                                    hintText: "Email",
                                     hintStyle: TextStyle(color: Color.fromRGBO(161, 141, 141, 1)),
                                     focusColor: Color.fromRGBO(233, 206, 206, 1),
                                     fillColor: Color.fromRGBO(233, 206, 206, 1),
@@ -158,17 +154,17 @@ class _LoginPage extends State<LoginPage>{
                                       ),
                                       onTap: () async {
                                         if(_formKey.currentState!.validate()){
-                                          // await AuthServices.signIn(nUsernameController.text, nPasswordController.text);
                                           try {
-                                            UserCredential result = await _auth.signInWithEmailAndPassword(email: nUsernameController.text, password: nPasswordController.text);
+                                            UserCredential result = await _auth.signInWithEmailAndPassword(email: nEmailController.text.toLowerCase(), password: nPasswordController.text);
                                             User? firebaseUser = result.user;
                                             print(firebaseUser);
 
-                                            Navigator.pushReplacementNamed(context, "/bottom_navbar");
+                                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                                              return MyBottomNavigationBar(emailSend: nEmailController.text.toLowerCase());
+                                            }));
                                           } catch(e) {
                                             print(e.toString());
-
-                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Gagal. Pastikan Email/Username atau Password Anda Benar")));
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Login Gagal. Pastikan Email atau Password Anda Benar")));
                                           }
                                         }
                                       },
@@ -225,6 +221,7 @@ class _LoginPage extends State<LoginPage>{
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 30,),
                               ],
                             ),
                           ),
