@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:kebapp/view/auth_user/ui/keranjang/keranjang.dart';
@@ -6,23 +6,24 @@ import 'package:kebapp/view/auth_user/ui/menu/menu.dart';
 import 'package:kebapp/view/auth_user/ui/profil/profil.dart';
 
 class MyBottomNavigationBar extends StatefulWidget{
-  const MyBottomNavigationBar({Key? key}) : super(key: key);
+  MyBottomNavigationBar({Key? key, required this.emailSend}) : super(key: key);
   static const routeName = "/bottom_navbar";
+  late String emailSend;
 
   @override
   State<MyBottomNavigationBar> createState() => _MyBottomNavigationBar();
 }
 
 class _MyBottomNavigationBar extends State<MyBottomNavigationBar>{
-  int _currentIndex = 0;   //deklarasi index
-  final List<Widget> _children = [
-    Menu(),
-    Keranjang(),
-    MyProfile()
-  ];
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context){
+    final List<Widget> _children = [
+      Menu(emailSend: widget.emailSend,),
+      Keranjang(emailSend: widget.emailSend),
+      MyProfile(emailSend: widget.emailSend,)
+    ];
     return Scaffold(
       backgroundColor: const Color.fromRGBO(233, 206, 206, 1),
       resizeToAvoidBottomInset: false,
