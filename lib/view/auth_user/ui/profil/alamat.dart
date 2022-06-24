@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
 class Alamat extends StatefulWidget{
-  Alamat({Key? key}) : super(key: key);
+  Alamat({Key? key, String emailSend}) : super(key: key);
   static const routeName = "/alamat";
 
   @override
