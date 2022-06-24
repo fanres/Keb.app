@@ -1,11 +1,13 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:kebapp/data.dart';
 import 'package:kebapp/view/auth_user/ui/menu/detail_kebab.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Menu extends StatefulWidget{
-  const Menu({Key? key}) : super(key: key);
+  Menu({Key? key, required this.emailSend}) : super(key: key);
   static const routeName = "/menu";
+  late String emailSend;
 
   @override
   State<Menu> createState() => _Menu();
@@ -19,6 +21,8 @@ class _Menu extends State<Menu>{
 
   final CollectionReference _menu = FirebaseFirestore.instance.collection("menu");
 
+  final CollectionReference _userAkun = FirebaseFirestore.instance.collection("akun_user");
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -26,44 +30,55 @@ class _Menu extends State<Menu>{
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(233, 206, 206, 1),
         elevation: 1,
-        title: Row(
-          children: [
-            Container(
-              width: 37,
-              height: 37,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black, width: 1),
-                borderRadius: const BorderRadius.all(Radius.circular(120)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.54),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: const Offset(0, 3),
+        title: StreamBuilder(
+          stream: _userAkun.where("email", isEqualTo: widget.emailSend).snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot){
+            if (snapshot.hasData) {
+              return Row(
+                children: [
+                  Container(
+                    width: 37,
+                    height: 37,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 1),
+                      borderRadius: const BorderRadius.all(Radius.circular(120)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.54),
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: snapshot.data!.docs[0]["uploadImage"] != true 
+                          ? AssetImage(snapshot.data!.docs[0]["image"]) as ImageProvider 
+                          : NetworkImage(snapshot.data!.docs[0]["image"]),
+                        fit: BoxFit.cover
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10,),
+                  Text.rich(
+                    TextSpan(
+                      text: "Hai, ",
+                      style: const TextStyle(color: Colors.black, fontSize: 18),
+                      children: [
+                        TextSpan(
+                          text: snapshot.data!.docs[0]["username"],
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                          )
+                        ),
+                      ]
+                    ),
                   ),
                 ],
-                image: DecorationImage(
-                  image: AssetImage(Data().imageProfile),
-                  fit: BoxFit.cover
-                ),
-              ),
-            ),
-            const SizedBox(width: 10,),
-            Text.rich(
-              TextSpan(
-                text: "Hai, ",
-                style: const TextStyle(color: Colors.black),
-                children: [
-                  TextSpan(
-                    text: Data().username,
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                    )
-                  ),
-                ]
-              ),
-            ),
-          ],
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
         ),
       ),
       resizeToAvoidBottomInset: false,
@@ -80,6 +95,7 @@ class _Menu extends State<Menu>{
                 ),
               ),
               const SizedBox(height: 10,),
+              // Form Search Menu
               TextField(
                 autofocus: false,
                 controller: searchController,
@@ -261,7 +277,7 @@ class _Menu extends State<Menu>{
                       itemBuilder: (context, index){
                         // Untuk mengambil data di index
                         final DocumentSnapshot documentSnapshot = streamSnapshot.data!.docs[index];
-                        // Search
+                        // Search Menu
                         return documentSnapshot["item"]
                           .toLowerCase()
                           .contains(searchString)
@@ -309,6 +325,7 @@ class _Menu extends State<Menu>{
                                   // Menambahkan data dari menu ke detail kebab
                                   if(_value == 1){
                                     return DetailKebab(
+                                      email: widget.emailSend,
                                       detailToping: documentSnapshot["item"],
                                       detailPrice: documentSnapshot["price"] * 1000,
                                       detailImage: documentSnapshot["image"],
@@ -317,6 +334,7 @@ class _Menu extends State<Menu>{
                                     );
                                   } else if(_value == 2){
                                     return DetailKebab(
+                                      email: widget.emailSend,
                                       detailToping: documentSnapshot["item"],
                                       detailPrice: documentSnapshot["price"] * 1000,
                                       detailImage: documentSnapshot["image"],
@@ -325,6 +343,7 @@ class _Menu extends State<Menu>{
                                     );
                                   } else if(_value == 3){
                                     return DetailKebab(
+                                      email: widget.emailSend,
                                       detailToping: documentSnapshot["item"],
                                       detailPrice: documentSnapshot["price"] * 1000,
                                       detailImage: documentSnapshot["image"],
@@ -333,6 +352,7 @@ class _Menu extends State<Menu>{
                                     );
                                   } else {
                                     return DetailKebab(
+                                      email: widget.emailSend,
                                       detailToping: documentSnapshot["item"],
                                       detailPrice: documentSnapshot["price"] * 1000,
                                       detailImage: documentSnapshot["image"],
