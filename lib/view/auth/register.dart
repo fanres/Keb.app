@@ -1,10 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:kebapp/view/auth/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// ignore: unused_import
-import 'package:firebase_core/firebase_core.dart';
 
 class RegisterPage extends StatefulWidget{
   const RegisterPage({Key? key}) : super(key: key);
@@ -68,7 +64,9 @@ class _RegisterPage extends State<RegisterPage>{
                   const SizedBox(height: 70,),
                   Container(
                     width: 307,
-                    height: MediaQuery.of(context).size.height,
+                    constraints: const BoxConstraints(
+                      maxHeight: double.infinity,
+                    ),
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(243, 234, 234, 1),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -261,11 +259,13 @@ class _RegisterPage extends State<RegisterPage>{
                                             "nama": nNameController.text,
                                             "username": nUsernameController.text,
                                             "telp": nTelpController.text,
-                                            "email": nEmailController.text,
-                                            "password": nPasswordController.text
+                                            "email": nEmailController.text.toLowerCase(),
+                                            "image": "assets/images/blank-profile.png",
+                                            "uploadImage": false,
+                                            "create_address": false
                                           });
 
-                                          _auth.createUserWithEmailAndPassword(email: nEmailController.text, password: nPasswordController.text);
+                                          _auth.createUserWithEmailAndPassword(email: nEmailController.text.toLowerCase(), password: nPasswordController.text);
                                           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Akun Anda berhasil ditambahkan")));
 
                                           nNameController.text = "";
@@ -277,9 +277,6 @@ class _RegisterPage extends State<RegisterPage>{
 
                                           Navigator.of(context).pushNamedAndRemoveUntil('/login_page', (Route<dynamic> routeName) => false);
                                         }
-                                        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                                        //   return LoginPage();
-                                        // }));
                                       },
                                     ),
                                   ),
@@ -294,13 +291,12 @@ class _RegisterPage extends State<RegisterPage>{
                                     InkWell(
                                       child: const Text("Log In", style: TextStyle(fontSize: 13, color: Color.fromRGBO(238, 41, 41, 0.7)),),
                                       onTap: (){
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                                          return LoginPage();
-                                        }));
+                                        Navigator.of(context).pushNamedAndRemoveUntil('/login_page', (Route<dynamic> routeName) => false);
                                       },
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 35,),
                               ],
                             ),
                           ),
