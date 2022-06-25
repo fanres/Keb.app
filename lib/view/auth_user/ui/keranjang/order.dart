@@ -6,10 +6,9 @@ import 'package:kebapp/view/auth_user/ui/keranjang/order_on_progress.dart';
 import 'package:kebapp/view/auth_user/ui/profil/alamat.dart';
 
 class Order extends StatefulWidget {
-  Order({Key? key, required this.emailSend, required this.totalPrice, required this.countItem}) : super(key: key);
+  Order({Key? key, required this.emailSend, required this.countItem}) : super(key: key);
   static const routeName = "/order";
   late String emailSend;
-  late int totalPrice;
   late int countItem;
 
   @override
@@ -38,6 +37,7 @@ class _Order extends State<Order> {
   String opsiPengiriman = "Reguler";
   int hargaPengiriman = 3000;
   bool? alamatControl;
+  int totalPrice = 0;
 
   late TextEditingController? pesanController = TextEditingController();
 
@@ -52,14 +52,27 @@ class _Order extends State<Order> {
       return alamatControl;
   });
 
+  Future getTotalPrice() async => FirebaseFirestore.instance.collection("temp_keranjang")
+    .where("email", isEqualTo: widget.emailSend)
+    .where("value", isEqualTo: true)
+    .get().then((value) {
+      
+      for (var doc in value.docs) { 
+        totalPrice = totalPrice + doc["totalPrice"] as int;
+       }
+
+      return totalPrice;
+  });
+
   @override
   void initState() {
-    getAlamatValue();
+    getTotalPrice();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    getAlamatValue();
     return Scaffold(
       backgroundColor: const Color.fromRGBO(233, 206, 206, 1),
       appBar: AppBar(
@@ -471,7 +484,7 @@ class _Order extends State<Order> {
                         children: [
                           Text("Total Pesanan (${widget.countItem}) Produk: "),
                           Text(
-                            "Rp ${widget.totalPrice}",
+                            "Rp $totalPrice",
                             style: const TextStyle(
                                 color: Colors.red, fontWeight: FontWeight.bold),
                           ),
@@ -717,7 +730,7 @@ class _Order extends State<Order> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text("Subtotal Produk"),
-                          Text("Rp ${widget.totalPrice}"),
+                          Text("Rp $totalPrice"),
                         ],
                       ),
                       const SizedBox(
@@ -741,7 +754,7 @@ class _Order extends State<Order> {
                             style: TextStyle(fontSize: 18),
                           ),
                           Text(
-                            "Rp ${widget.totalPrice + hargaPengiriman}",
+                            "Rp ${totalPrice + hargaPengiriman}",
                             style: const TextStyle(color: Colors.red, fontSize: 18),
                           ),
                         ],
@@ -771,7 +784,7 @@ class _Order extends State<Order> {
                             style: TextStyle(color: Color.fromRGBO(65, 54, 54, 1)),
                           ),
                           Text(
-                            "Rp ${widget.totalPrice + hargaPengiriman}",
+                            "Rp ${totalPrice + hargaPengiriman}",
                             style: const TextStyle(color: Colors.red,fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -803,19 +816,19 @@ class _Order extends State<Order> {
                             _transaksiCOD.add({
                               "email": widget.emailSend,
                               "metode_pembayaran": metodePembayaran,
-                              "total_harga": widget.totalPrice + hargaPengiriman
+                              "total_harga": totalPrice + hargaPengiriman
                             });
                           } else if (_radioValue == 2) {
                             _transaksiOVO.add({
                               "email": widget.emailSend,
                               "metode_pembayaran": metodePembayaran,
-                              "total_harga": widget.totalPrice + hargaPengiriman
+                              "total_harga": totalPrice + hargaPengiriman
                             });
                           } else if (_radioValue == 3) {
                             _transaksiGopay.add({
                               "email": widget.emailSend,
                               "metode_pembayaran": metodePembayaran,
-                              "total_harga": widget.totalPrice + hargaPengiriman
+                              "total_harga": totalPrice + hargaPengiriman
                             });
                           }
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {

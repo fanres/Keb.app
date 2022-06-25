@@ -39,26 +39,14 @@ class _Keranjang extends State<Keranjang> {
       return _countItem;
   });
 
-  Future getTotalPrice() async => FirebaseFirestore.instance.collection("temp_keranjang")
-    .where("email", isEqualTo: widget.emailSend)
-    .where("value", isEqualTo: true)
-    .get().then((value) {
-      for (var doc in value.docs) { 
-        totalPrice = totalPrice + doc["totalPrice"] as int;
-       }
-
-      return totalPrice;
-  });
-
   @override
   void initState() {
-    getTotalPrice();
-    getCount();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    getCount();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromRGBO(233, 206, 206, 1),
@@ -150,10 +138,6 @@ class _Keranjang extends State<Keranjang> {
                                     // Melakukan update data pada tabel temp_keranjang
                                     await _keranjang.doc(documentSnapshot.id).update({"value": value});
                                     if (value == true) {
-                                      setState(() {
-                                        _countItem++;
-                                        totalPrice += documentSnapshot["totalPrice"] as int;
-                                      });
                                       // Memasukkan data ke tabel rowayat
                                       _riwayat.add({
                                         "email": widget.emailSend,
@@ -165,14 +149,6 @@ class _Keranjang extends State<Keranjang> {
                                         "status": "Selesai"
                                       });
                                     } else if (value == false) {
-                                      // Mengurangi jumlah item yang tercentang
-                                      setState(() {
-                                        if (_countItem > 0) {
-                                          _countItem--;
-                                          totalPrice -= documentSnapshot["totalPrice"] as int;
-                                        }
-                                      });
-
                                       // menghapus data di tabel riwayat
                                       await _riwayat.where("id_item", isEqualTo: "${widget.emailSend}/$index").get().then((value) {
                                         for (DocumentSnapshot ds in value.docs) {
@@ -325,7 +301,6 @@ class _Keranjang extends State<Keranjang> {
                                     Navigator.push(context, MaterialPageRoute(builder: (context){
                                       return Order(
                                         emailSend: widget.emailSend,
-                                        totalPrice: totalPrice,
                                         countItem: _countItem,
                                       );
                                     }));

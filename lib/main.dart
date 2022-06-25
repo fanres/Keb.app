@@ -91,7 +91,6 @@ class MyApp extends StatelessWidget {
         ),
         Order.routeName: (context) => Order(
           emailSend: ModalRoute.of(context)?.settings.arguments as String,
-          totalPrice: ModalRoute.of(context)?.settings.arguments as int,
           countItem: ModalRoute.of(context)?.settings.arguments as int,
         ),
         OrderOnProgress.routeName: (context) => OrderOnProgress(
@@ -106,3 +105,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
